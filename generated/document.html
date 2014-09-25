@@ -21,14 +21,51 @@ Api Version: v1
 ## APIs
 ### /pet
 
-#### **PUT** `/pet`
-##### updatePet 
+#### **GET** `/pet/findByTags`
+##### findPetsByTags 
 
-Update an existing pet
-
+Finds Pets by tags
+Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
 
 ###### URL
-http://petstore.swagger.wordnik.com/api/pet
+http://petstore.swagger.wordnik.com/api/pet/findByTags
+###### Parameters
+- query
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>tags</th>
+        <td>true</td>
+        <td>Tags to filter by</td>
+        <td>string</td>
+    </tr>
+</table>
+
+###### Response
+[List[Pet]](#Pet)
+
+
+###### Errors
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+| 400    | Invalid tag value | - |
+
+
+- - -
+#### **GET** `/pet/findByStatus`
+##### findPetsByStatus 
+
+Finds Pets by status
+Multiple status values can be provided with comma seperated strings
+
+###### URL
+http://petstore.swagger.wordnik.com/api/pet/findByStatus
 ###### Parameters
 - body
 
@@ -41,22 +78,36 @@ http://petstore.swagger.wordnik.com/api/pet
     </tr>
     <tr>
         <th>body</th>
+        <td>false</td>
+        <td></td>
+        <td><a href="#QueryResultBean">QueryResultBean</a></td>
+    </tr>
+</table>
+- query
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>status</th>
         <td>true</td>
-        <td>Pet object that needs to be added to the store</td>
-        <td><a href="#Pet">Pet</a></td>
+        <td>Status values that need to be considered for filter</td>
+        <td>string</td>
     </tr>
 </table>
 
 ###### Response
-[](#)
+[List[Pet]](#Pet)
 
 
 ###### Errors
 | Status Code | Reason      | Response Model |
 |-------------|-------------|----------------|
-| 400    | Invalid ID supplied | - |
-| 404    | Pet not found | - |
-| 405    | Validation exception | - |
+| 400    | Invalid status value | - |
 
 
 - - -
@@ -97,31 +148,15 @@ http://petstore.swagger.wordnik.com/api/pet
 
 
 - - -
-#### **GET** `/pet/findByStatus`
-##### findPetsByStatus 
+#### **PUT** `/pet`
+##### updatePet 
 
-Finds Pets by status
-Multiple status values can be provided with comma seperated strings
+Update an existing pet
+
 
 ###### URL
-http://petstore.swagger.wordnik.com/api/pet/findByStatus
+http://petstore.swagger.wordnik.com/api/pet
 ###### Parameters
-- query
-
-<table border="1">
-    <tr>
-        <th>Parameter</th>
-        <th>Required</th>
-        <th>Description</th>
-        <th>Data Type</th>
-    </tr>
-    <tr>
-        <th>status</th>
-        <td>true</td>
-        <td>Status values that need to be considered for filter</td>
-        <td>string</td>
-    </tr>
-</table>
 - body
 
 <table border="1">
@@ -133,57 +168,22 @@ http://petstore.swagger.wordnik.com/api/pet/findByStatus
     </tr>
     <tr>
         <th>body</th>
-        <td>false</td>
-        <td></td>
-        <td><a href="#QueryResultBean">QueryResultBean</a></td>
-    </tr>
-</table>
-
-###### Response
-[List[Pet]](#Pet)
-
-
-###### Errors
-| Status Code | Reason      | Response Model |
-|-------------|-------------|----------------|
-| 400    | Invalid status value | - |
-
-
-- - -
-#### **GET** `/pet/findByTags`
-##### findPetsByTags 
-
-Finds Pets by tags
-Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
-
-###### URL
-http://petstore.swagger.wordnik.com/api/pet/findByTags
-###### Parameters
-- query
-
-<table border="1">
-    <tr>
-        <th>Parameter</th>
-        <th>Required</th>
-        <th>Description</th>
-        <th>Data Type</th>
-    </tr>
-    <tr>
-        <th>tags</th>
         <td>true</td>
-        <td>Tags to filter by</td>
-        <td>string</td>
+        <td>Pet object that needs to be added to the store</td>
+        <td><a href="#Pet">Pet</a></td>
     </tr>
 </table>
 
 ###### Response
-[List[Pet]](#Pet)
+[](#)
 
 
 ###### Errors
 | Status Code | Reason      | Response Model |
 |-------------|-------------|----------------|
-| 400    | Invalid tag value | - |
+| 400    | Invalid ID supplied | - |
+| 404    | Pet not found | - |
+| 405    | Validation exception | - |
 
 
 - - -
@@ -389,22 +389,6 @@ This can only be done by the logged in user.
 ###### URL
 http://petstore.swagger.wordnik.com/api/user/{username}
 ###### Parameters
-- path
-
-<table border="1">
-    <tr>
-        <th>Parameter</th>
-        <th>Required</th>
-        <th>Description</th>
-        <th>Data Type</th>
-    </tr>
-    <tr>
-        <th>username</th>
-        <td>true</td>
-        <td>name that need to be deleted</td>
-        <td>string</td>
-    </tr>
-</table>
 - body
 
 <table border="1">
@@ -419,6 +403,22 @@ http://petstore.swagger.wordnik.com/api/user/{username}
         <td>true</td>
         <td>Updated user object</td>
         <td><a href="#User">User</a></td>
+    </tr>
+</table>
+- path
+
+<table border="1">
+    <tr>
+        <th>Parameter</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Data Type</th>
+    </tr>
+    <tr>
+        <th>username</th>
+        <td>true</td>
+        <td>name that need to be deleted</td>
+        <td>string</td>
     </tr>
 </table>
 

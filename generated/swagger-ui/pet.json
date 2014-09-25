@@ -5,49 +5,29 @@
   "resourcePath" : "/pet",
   "produces" : [ "application/json", "application/xml" ],
   "apis" : [ {
-    "path" : "/pet",
+    "path" : "/pet/findByTags",
     "operations" : [ {
-      "method" : "PUT",
-      "summary" : "Update an existing pet",
-      "notes" : "",
-      "type" : "void",
-      "nickname" : "updatePet",
+      "method" : "GET",
+      "summary" : "Finds Pets by tags",
+      "notes" : "Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.",
+      "type" : "array",
+      "items" : {
+        "$ref" : "Pet"
+      },
+      "nickname" : "findPetsByTags",
       "parameters" : [ {
-        "name" : "body",
-        "description" : "Pet object that needs to be added to the store",
+        "name" : "tags",
+        "description" : "Tags to filter by",
         "required" : true,
-        "type" : "Pet",
-        "paramType" : "body",
-        "allowMultiple" : false
+        "type" : "string",
+        "paramType" : "query",
+        "allowMultiple" : true
       } ],
       "responseMessages" : [ {
         "code" : 400,
-        "message" : "Invalid ID supplied"
-      }, {
-        "code" : 404,
-        "message" : "Pet not found"
-      }, {
-        "code" : 405,
-        "message" : "Validation exception"
-      } ]
-    }, {
-      "method" : "POST",
-      "summary" : "Add a new pet to the store",
-      "notes" : "",
-      "type" : "void",
-      "nickname" : "addPet",
-      "parameters" : [ {
-        "name" : "body",
-        "description" : "Pet object that needs to be added to the store",
-        "required" : true,
-        "type" : "Pet",
-        "paramType" : "body",
-        "allowMultiple" : false
+        "message" : "Invalid tag value"
       } ],
-      "responseMessages" : [ {
-        "code" : 405,
-        "message" : "Invalid input"
-      } ]
+      "deprecated" : "true"
     } ]
   }, {
     "path" : "/pet/findByStatus",
@@ -82,29 +62,49 @@
       } ]
     } ]
   }, {
-    "path" : "/pet/findByTags",
+    "path" : "/pet",
     "operations" : [ {
-      "method" : "GET",
-      "summary" : "Finds Pets by tags",
-      "notes" : "Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.",
-      "type" : "array",
-      "items" : {
-        "$ref" : "Pet"
-      },
-      "nickname" : "findPetsByTags",
+      "method" : "POST",
+      "summary" : "Add a new pet to the store",
+      "notes" : "",
+      "type" : "void",
+      "nickname" : "addPet",
       "parameters" : [ {
-        "name" : "tags",
-        "description" : "Tags to filter by",
+        "name" : "body",
+        "description" : "Pet object that needs to be added to the store",
         "required" : true,
-        "type" : "string",
-        "paramType" : "query",
-        "allowMultiple" : true
+        "type" : "Pet",
+        "paramType" : "body",
+        "allowMultiple" : false
+      } ],
+      "responseMessages" : [ {
+        "code" : 405,
+        "message" : "Invalid input"
+      } ]
+    }, {
+      "method" : "PUT",
+      "summary" : "Update an existing pet",
+      "notes" : "",
+      "type" : "void",
+      "nickname" : "updatePet",
+      "parameters" : [ {
+        "name" : "body",
+        "description" : "Pet object that needs to be added to the store",
+        "required" : true,
+        "type" : "Pet",
+        "paramType" : "body",
+        "allowMultiple" : false
       } ],
       "responseMessages" : [ {
         "code" : 400,
-        "message" : "Invalid tag value"
-      } ],
-      "deprecated" : "true"
+        "message" : "Invalid ID supplied"
+      }, {
+        "code" : 404,
+        "message" : "Pet not found"
+      }, {
+        "code" : 405,
+        "message" : "Validation exception"
+      } ]
     } ]
   }, {
     "path" : "/pet/{petId}",
@@ -177,16 +177,16 @@
           "description" : "pet status in the store",
           "enum" : [ "available", "pending", "sold" ]
         },
-        "tag" : {
-          "type" : "array",
-          "items" : {
-            "$ref" : "Tag"
-          }
-        },
         "photoUrl" : {
           "type" : "array",
           "items" : {
             "type" : "string"
+          }
+        },
+        "tag" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "Tag"
           }
         }
       }
